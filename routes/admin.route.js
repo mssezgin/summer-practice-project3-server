@@ -15,7 +15,7 @@ router.use(auth, (req, res, next) => {
     if (req.user.admin) {
         next();
     } else {
-        return res.status(403).send('Personel harici giremez!');
+        return res.status(403).send('<h1>Personel harici giremez!</h1>');
     }
 });
 

@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
         const sort = req.query.sort || '_id';
         let query = Messages.find().sort(sort);
         const totalSize = await Messages.countDocuments();
-        const pageSize = 10; // TODO: parseInt(req.query.pagesize, 10) || 10;
+        const pageSize = 10;
         const totalPages = Math.ceil(totalSize / pageSize);
         let page = parseInt(req.query.page, 10);
         if (page && page > 0) {
@@ -61,8 +61,6 @@ router.get('/:messageId', (req, res, next) => {
 // post // TODO: (was) only for testing
 router.post('/', async (req, res, next) => {
 
-    console.log('Create message:', req.body);
-
     if (!(req.body.from && req.body.from.username && req.body.to && req.body.to.username)) {
         return res.status(400).send("Some required fields are missing.");
     }
@@ -96,13 +94,6 @@ router.post('/', async (req, res, next) => {
             res.json(newMessage);
         }
     });
-    // for testing
-    /* Messages.insertMany(req.body).then(function(){
-        console.log("Data inserted " + req.body.length)  // Success
-        res.json({size: req.body.length});
-    }).catch(function(error){
-        console.log(error)      // Failure
-    }); */
 });
 
 
@@ -120,7 +111,7 @@ router.put('/:messageId', async (req, res, next) => {
             if (!fromUser) {
                 return res.status(400).send( "From does not exist.");
             }
-            update["from.userId"] = fromUser._id; // mongoose.Types.ObjectId(req.body.from.userId);
+            update["from.userId"] = fromUser._id;
             update["from.username"] = fromUser.username;
         }
         if (req.body.from.deletedThis) update["from.deletedThis"] = req.body.from.deletedThis;
@@ -131,7 +122,7 @@ router.put('/:messageId', async (req, res, next) => {
             if (!toUser) {
                 return res.status(400).send( "To does not exist.");
             }
-            update["to.userId"] = toUser._id; // mongoose.Types.ObjectId(req.body.to.userId);
+            update["to.userId"] = toUser._id;
             update["to.username"] = req.body.to.username;
         }
         if (req.body.to.deletedThis) update["to.deletedThis"] = req.body.to.deletedThis;
@@ -142,7 +133,7 @@ router.put('/:messageId', async (req, res, next) => {
     Messages.findByIdAndUpdate(
         req.params.messageId,
         update,
-        {new: true, runValidators: true},
+        { new: true, runValidators: true },
         (error, result) => {
             if (error) {
                 return next(error);

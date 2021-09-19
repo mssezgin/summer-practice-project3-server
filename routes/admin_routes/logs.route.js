@@ -17,7 +17,7 @@ router.get('/', async (req, res, next) => {
         const sort = req.query.sort || '-_id';
         let query = Logs.find().sort(sort);
         const totalSize = await Logs.countDocuments();
-        const pageSize = 10; // TODO: parseInt(req.query.pagesize, 10) || 10;
+        const pageSize = 10;
         const totalPages = Math.ceil(totalSize / pageSize);
         let page = parseInt(req.query.page, 10);
         if (page && page > 0) {
@@ -79,13 +79,6 @@ router.post('/', (req, res, next) => {
             res.json(newLog); // TODO
         }
     });
-    // for testing
-    /* Logs.insertMany(req.body).then(function(){
-        console.log("Data inserted " + req.body.length)  // Success
-        res.json({size: req.body.length});
-    }).catch(function(error){
-        console.log(error)      // Failure
-    }); */
 });
 
 

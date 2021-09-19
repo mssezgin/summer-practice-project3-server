@@ -67,8 +67,6 @@ router.post('/', async (req, res, next) => {
             { expiresIn: "2h" }
         );
 
-        console.log('Register newUser:', newUser); // TODO: delete this
-
         logInfo.success = true;
         logInfo.resultMessage = "OK";
         logInfo.actor = {

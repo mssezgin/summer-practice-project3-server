@@ -34,7 +34,7 @@ let Users = new Schema({ // TODO: add online, lastSeen
         unique: [true, "{VALUE} already exists."]
     },
     password: {
-        type: String, // TODO: use hashing
+        type: String,
         minlength: [8, "Password must be at least 8 characters."],
         required: true
     },

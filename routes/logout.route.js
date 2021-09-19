@@ -24,7 +24,7 @@ router.get('/', auth, async (req, res, next) => {
     let logInfo = {
         when: Date.now(),
         action: "LOGOUT",
-        ip:  req.headers['x-forwarded-for'] || req.socket.remoteAddress || req.ip, // TODO: ?
+        ip:  req.headers['x-forwarded-for'] || req.socket.remoteAddress || req.ip,
         browser: req.headers["user-agent"]
     };
 
@@ -68,7 +68,7 @@ router.post('/', auth, async (req, res, next) => {
     let logInfo = {
         when: Date.now(),
         action: "LOGOUT",
-        ip:  req.headers['x-forwarded-for'] || req.socket.remoteAddress || req.ip, // TODO: ?
+        ip:  req.headers['x-forwarded-for'] || req.socket.remoteAddress || req.ip,
         browser: req.headers["user-agent"]
     };
 

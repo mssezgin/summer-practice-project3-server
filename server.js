@@ -17,7 +17,7 @@ const app = express();
 
 
 // database
-// TODO: add superuser
+// TODO: add a superuser
 mongoose.connect(dbConfig.url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -36,8 +36,6 @@ mongoose.connect(dbConfig.url, {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
-// app.use(express.static(path.join(__dirname, 'dist/mean-stack-crud-app')));
-// app.use('/', express.static(path.join(__dirname, 'dist/mean-stack-crud-app')));
 
 
 // routes
@@ -58,7 +56,7 @@ app.use('*', (req, res) => {
 
 // 404 error
 app.use((req, res, next) => {
-    next(createError(404)); // TODO: createError(404) ?
+    next(createError(404));
 });
 
 // error handler

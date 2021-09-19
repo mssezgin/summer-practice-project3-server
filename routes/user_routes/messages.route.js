@@ -58,7 +58,7 @@ async function getInboxOrSent(req, res, next, list = 'inbox') {
             return next(404);
         }
 
-        const pageSize = 10; // TODO: parseInt(req.query.pagesize, 10) || 10;
+        const pageSize = 10;
         const totalPages = Math.ceil(totalSize / pageSize);
         let page = parseInt(req.query.page, 10);
         if (page && page > 0 && totalPages > 0) {
@@ -88,7 +88,7 @@ async function getInboxOrSent(req, res, next, list = 'inbox') {
 }
 
 
-// get // TODO: redirect '/' to '/inbox'
+// get
 router.get('/inbox', auth, (req, res, next) => {
     getInboxOrSent(req, res, next, 'inbox');
 });
@@ -123,7 +123,7 @@ router.get('/:messageId', auth, async (req, res, next) => {
 
     try {
 
-        const message = await Messages.findById(req.params.messageId); // TODO: use projection (body)
+        const message = await Messages.findById(req.params.messageId);
 
         if (message && message.to.userId.toString() === req.user._id.toString() && !message.to.deletedThis) {
             if (message.seen) {
@@ -131,20 +131,19 @@ router.get('/:messageId', auth, async (req, res, next) => {
             }
         } else if (message && message.from.userId.toString() === req.user._id.toString() && !message.from.deletedThis) {
             return res.json(message);
-        } else { // TODO: use correct status code
+        } else {
             return res.status(404).send('Message not found.');
         }
 
-        // TODO: use await (?)
         Messages.findByIdAndUpdate(
             req.params.messageId,
-            {updatedAt: Date.now(), seen: true},
-            {new: true, runValidators: true},
+            { updatedAt: Date.now(), seen: true },
+            { new: true, runValidators: true },
             (error, result) => {
                 if (error) {
                     return next(error);
                 } else {
-                    return res.json(result); // TODO: use projection or previous result
+                    return res.json(result);
                 }
             }
         );
@@ -161,7 +160,6 @@ router.post('/', auth, async (req, res, next) => {
 
     try {
 
-        // TODO: check if from.username is valid
         const input = req.body;
         if (!(input.to && input.to.username)) {
             return res.status(400).send("Some required fields are missing.");

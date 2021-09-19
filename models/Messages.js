@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let Messages = new Schema({ // TODO: add delivered (?)
+let Messages = new Schema({
     when: {
         type: Date,
         default: Date.now,

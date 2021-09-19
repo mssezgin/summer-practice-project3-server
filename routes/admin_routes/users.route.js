@@ -19,7 +19,7 @@ router.get('/', async (req, res, next) => {
         const sort = req.query.sort || '_id';
         let query = Users.find().sort(sort);
         const totalSize = await Users.countDocuments();
-        const pageSize = 10; // TODO: parseInt(req.query.pagesize, 10) || 10;
+        const pageSize = 10;
         const totalPages = Math.ceil(totalSize / pageSize);
         let page = parseInt(req.query.page, 10);
         if (page && page > 0) {
@@ -62,8 +62,6 @@ router.get('/:userId', (req, res, next) => {
 // post
 router.post('/', async (req, res, next) => {
 
-    console.log('Create user:', req.body); // TODO: delete this
-
     if (!(req.body.email && req.body.username && req.body.password)) {
         return res.status(400).send("Some required fields are missing.");
     }
@@ -88,13 +86,6 @@ router.post('/', async (req, res, next) => {
             res.json(newUser);
         }
     });
-    // for testing
-    /* Users.insertMany(req.body).then(function(){
-        console.log("Data inserted " + req.body.length)  // Success
-        res.json({size: req.body.length});
-    }).catch(function(error){
-        console.log(error)      // Failure
-    }); */
 });
 
 
@@ -136,7 +127,6 @@ router.delete('/:userId', (req, res, next) => {
         {"from.userId": mongoose.Types.ObjectId(req.params.userId), "to.deletedThis": true},
         (error) => {
             if (error) {
-                // return next(error);
                 console.log('Could not deleteMany(from.userId)');
             }
         }
@@ -145,7 +135,6 @@ router.delete('/:userId', (req, res, next) => {
         {"to.userId": mongoose.Types.ObjectId(req.params.userId), "from.deletedThis": true},
         (error) => {
             if (error) {
-                // return next(error);
                 console.log('Could not deleteMany(to.userId)');
             }
         }
@@ -155,7 +144,6 @@ router.delete('/:userId', (req, res, next) => {
         {updatedAt: Date.now(), "from.deletedThis": true},
         (error) => {
             if (error) {
-                // return next(error);
                 console.log('Could not updateMany(from.userId)');
             }
         }
@@ -165,7 +153,6 @@ router.delete('/:userId', (req, res, next) => {
         {updatedAt: Date.now(), "to.deletedThis": true},
         (error) => {
             if (error) {
-                // return next(error);
                 console.log('Could not updateMany(to.userId)');
             }
         }

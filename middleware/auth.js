@@ -23,10 +23,6 @@ const auth = async (req, res, next) => {
     try {
         const clientUser = await Users.findById(decoded.userId).exec();
         if (clientUser && clientUser.admin === decoded.admin) {
-            // if (clientUser.updatedAt > decoded.iat) {
-            //     console.log(clientUser.updatedAt, ' > ', decoded.iat);
-            //     return res.status(401).send('Cannot verify user.');
-            // }
             req.user = clientUser;
         } else {
             return res.status(401).send('Cannot verify user.');
